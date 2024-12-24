@@ -61,10 +61,45 @@ def anadir_inventario(): #ventana donde se estan las opciones para añadir al in
     
     button1=ttk.Button(t1, text='Añadir', command=anadido_inventario, state='disable').grid(column=1,row=10, pady=10) #boton añadir desactivado
     
+def eliminar_producto():
+    t2=Toplevel(root)
+    t2.title('Eliminar producto')
+    t2.geometry('350x250+200+5')
     
-
-
-
+    # Configurar las columnas y filas para que se expandan
+    t2.grid_columnconfigure(0, weight=1)
+    t2.grid_columnconfigure(1, weight=1)
+    t2.grid_columnconfigure(2, weight=1)
+    t2.grid_rowconfigure(0, weight=1)
+    t2.grid_rowconfigure(1, weight=1)
+    t2.grid_rowconfigure(2, weight=1)
+    t2.grid_rowconfigure(3, weight=1)
+    t2.grid_rowconfigure(4, weight=1)
+    t2.grid_rowconfigure(5, weight=1)
+    t2.grid_rowconfigure(6, weight=1)
+    t2.grid_rowconfigure(7, weight=1)
+    t2.grid_rowconfigure(8, weight=1)
+    t2.grid_rowconfigure(9, weight=1)
+    
+    nombreProducto=StringVar()
+    
+    def trace_callback(*args):
+        print({nombreProducto.get()})
+        button1=ttk.Button(t2, text='Eliminar', command=eliminar_producto, state='default').grid(column=1, row=3, pady=10)
+    def eliminar_producto():
+        messagebox.askyesno(message='¿Está seguro de que desea eliminar el producto?', title='Eliminar producto')
+        if True:
+            messagebox.showinfo(message='Producto eliminado', title='Producto eliminado')
+            t2.destroy()
+        else:
+            pass
+    
+    label1=ttk.Label(t2, text='Introduzca el nombre del producto a eliminar:').grid(column=1,row=1,sticky=(W))
+    nombre=ttk.Entry(t2, textvariable=nombreProducto).grid(column=1, row=2, sticky=(E,W), columnspan=2, padx=30)
+    button1=ttk.Button(t2, text='Eliminar', command=eliminar_producto, state='disabled').grid(column=1,row=3, pady=10)
+    nombreProducto.trace_add('write', trace_callback) #metodo que permite analizar cambios en la entrada de cantidad para lo anteriormnte dicho
+    
+    
 
 
 
@@ -72,8 +107,7 @@ root =Tk()
 root.title('Gestion de Inventario')
 mainframe=ttk.Frame(root, padding=('3 3 7 10'))
 mainframe.grid(row=0, column=0, sticky=(N,S,E,W))
-imgobj=PhotoImage(file='/Users/cristina/Desktop/1.png')
-img=ttk.Label(mainframe, image=imgobj).grid(column=3, row=0)
+
 
 # Configurar las columnas y filas para que se expandan
 root.grid_columnconfigure(0, weight=1)
@@ -101,7 +135,7 @@ button4=StringVar()
 
 button1=ttk.Button(mainframe, text='Añadir inventario', command=anadir_inventario).grid(column=1, row=3)
 button2=ttk.Button(mainframe, text='Mostrar todo el inventario', command=algo).grid(column=2, row=3)
-button3=ttk.Button(mainframe, text='Elminar un producto', command=algo).grid(column=4, row=3)
+button3=ttk.Button(mainframe, text='Elminar un producto', command=eliminar_producto).grid(column=4, row=3)
 button4=ttk.Button(mainframe, text='Buscar un producto', command=algo).grid(column=5,row=3)
 
 
