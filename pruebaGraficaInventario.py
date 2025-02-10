@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+import database
 
 
 
@@ -31,35 +32,36 @@ def anadir_inventario(): #ventana donde se estan las opciones para añadir al in
     t1.grid_rowconfigure(8, weight=1)
     t1.grid_rowconfigure(9, weight=1)
     
-    nombreProducto=StringVar() #definimos funciones stringvar para las variables a manejar
-    categoriaProducto=StringVar()
-    precioProducto=StringVar()
+    ean=StringVar() #definimos funciones stringvar para las variables a manejar
+    nombre=StringVar()
     cantidadProducto=StringVar()
     spinbox1=StringVar()
     
     label1=ttk.Label(t1, text='Introduzca los datos:').grid(column=2,row=1,sticky=(W)) #etiquetas de los nombes solicitados
-    label2=ttk.Label(t1, text='Introduzca el nombre:').grid(column=1,row=2)
-    label3=ttk.Label(t1, text='Introduzca la categoria:').grid(column=1, row=4)
-    label4=ttk.Label(t1, text='Introduzca el precio: ').grid(column=1,row=6)
-    label5=ttk.Label(t1, text='Introduzca la cantidad: ').grid(column=1,row=8)
+    label2=ttk.Label(t1, text='Introduzca el EAN:').grid(column=1,row=2)
+    label3=ttk.Label(t1, text='Introduzca el nombre:').grid(column=1, row=4)
+    label4=ttk.Label(t1, text='Introduzca la cantidad: ').grid(column=1,row=6)
     
     
-    nombre=ttk.Entry(t1, textvariable=nombreProducto).grid(column=1, row=3, sticky=(E,W), columnspan=2, padx=30) #textos de entrada de infomracion
-    categoria=ttk.Entry(t1, textvariable=categoriaProducto).grid(column=1, row=5, sticky=(E,W), columnspan=2, padx=30)
-    precio=ttk.Entry(t1, textvariable=precioProducto).grid(column=1,row=7, sticky=(E,W), columnspan=2, padx=30)
-    cantidad=ttk.Spinbox(t1, from_=1.0, to=10.0, textvariable=spinbox1).grid(column=1,row=9,sticky=(E,W), columnspan=2, padx=30)
+    ean=ttk.Entry(t1, textvariable=ean).grid(column=1, row=3, sticky=(E,W), columnspan=2, padx=30) #textos de entrada de infomracion
+    nombre=ttk.Entry(t1, textvariable=nombre).grid(column=1, row=5, sticky=(E,W), columnspan=2, padx=30)
+    cantidadProducto_anadir=ttk.Entry(t1, textvariable=cantidadProducto)
+    cantidadProducto_anadir.grid(column=1,row=7, sticky=(E,W), columnspan=2, padx=30)
+    
     
     def anadido_inventario(): #finaliza la ventana una vez hemos terminado de añadir un producto
         messagebox.showinfo(message='Añadido al inventario', title='Añadido al inventario')
         t1.destroy()
     
     def trace_callback(*args): #funcion para ver el valor anotado en el campo de cantidad y habilitar el boton para añadir el articulo
-        print({precioProducto.get()})
-        button2=ttk.Button(t1, text='Añadir', command=anadido_inventario, state='default').grid(column=1, row=10, pady=10)
+        print({cantidadProducto.get()})
+        button2=ttk.Button(t1, text='Añadir', command=anadido_inventario, state='default')
+        button2.grid(column=1, row=10, pady=10)
     
-    precioProducto.trace_add("write", trace_callback) #metodo que permite analizar cambios en la entrada de cantidad para lo anteriormnte dicho
+    cantidadProducto.trace_add("write", trace_callback) #metodo que permite analizar cambios en la entrada de cantidad para lo anteriormnte dicho
     
-    button1=ttk.Button(t1, text='Añadir', command=anadido_inventario, state='disable').grid(column=1,row=10, pady=10) #boton añadir desactivado
+    button1=ttk.Button(t1, text='Añadir', command=anadido_inventario, state='disable')
+    button1.grid(column=1,row=10, pady=10) #boton añadir desactivado
     
 def eliminar_producto():
     t2=Toplevel(root)
@@ -82,10 +84,18 @@ def eliminar_producto():
     t2.grid_rowconfigure(9, weight=1)
     
     nombreProducto=StringVar()
+    ean=StringVar()
     
     def trace_callback(*args):
         print({nombreProducto.get()})
-        button1=ttk.Button(t2, text='Eliminar', command=eliminar_producto, state='default').grid(column=1, row=3, pady=10)
+        button1=ttk.Button(t2, text='Eliminar', command=eliminar_producto, state='default')
+        button1.grid(column=1, row=5, pady=10)
+    def trace_callback2(*args):
+        print({ean.get()})
+        button2=ttk.Button(t2, text='Eliminar', command=eliminar_producto, state='default')
+        button2.grid(column=1, row=5, pady=10)
+    
+    
     def eliminar_producto():
         messagebox.askyesno(message='¿Está seguro de que desea eliminar el producto?', title='Eliminar producto')
         if True:
@@ -94,10 +104,18 @@ def eliminar_producto():
         else:
             pass
     
-    label1=ttk.Label(t2, text='Introduzca el nombre del producto a eliminar:').grid(column=1,row=1,sticky=(W))
-    nombre=ttk.Entry(t2, textvariable=nombreProducto).grid(column=1, row=2, sticky=(E,W), columnspan=2, padx=30)
-    button1=ttk.Button(t2, text='Eliminar', command=eliminar_producto, state='disabled').grid(column=1,row=3, pady=10)
-    nombreProducto.trace_add('write', trace_callback) #metodo que permite analizar cambios en la entrada de cantidad para lo anteriormnte dicho
+    label1=ttk.Label(t2, text='Introduzca el nombre del producto a eliminar:')
+    label1.grid(column=1,row=1,sticky=(W))
+    label2=ttk.Label(t2, text='Introduzca el EAN del producto a eliminar:')
+    label2.grid(column=1,row=3,sticky=(W))
+    nombre=ttk.Entry(t2, textvariable=nombreProducto)
+    nombre.grid(column=1, row=2, sticky=(E,W), columnspan=2, padx=30)
+    ean_entry=ttk.Entry(t2, textvariable=ean)
+    ean_entry.grid(column=1, row=4, sticky=(E,W), columnspan=2, padx=30)
+    button1=ttk.Button(t2, text='Eliminar', command=eliminar_producto, state='disabled')
+    button1.grid(column=1,row=5, pady=10)
+    nombreProducto.trace_add('write', trace_callback) 
+    ean.trace_add('write', trace_callback2)
     
     
 

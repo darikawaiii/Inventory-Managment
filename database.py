@@ -1,8 +1,8 @@
 import sqlite3
 
-conexion = sqlite3.connect('productos1.db')  # inicializa y crea la base de datos si no existe
-cursor = conexion.cursor()
-print('\nBase de datos iniciada\n')
+#conexion = sqlite3.connect('productos1.db')  # inicializa y crea la base de datos si no existe
+#cursor = conexion.cursor()
+#print('\nBase de datos iniciada\n')
 
 def crear_tabla(): #Crea la tabla productos 1 en el caso de que sea la primera vez que se ejecuta el programa y no exista la tabla
     conexion.execute('''CREATE TABLE IF NOT EXISTS productos1(EAN INT, nombre TEXT, precio INT)''')
@@ -63,11 +63,11 @@ def seleccionar_producto():
         seleccionar_producto()
 
 
-crear_tabla()
-anadir_producto() 
-eliminar_producto()
-mostrar_productos() 
-fin_codigo()
+#crear_tabla()
+#anadir_producto() 
+#eliminar_producto()
+#mostrar_productos() 
+#fin_codigo()
 
 
 
