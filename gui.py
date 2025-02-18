@@ -108,7 +108,7 @@ class funciones_gui:
         def trace_callback2(*args): #idem, pero para el campo de EAN
             print({ean.get()})
             button2=ttk.Button(t2, text='Eliminar por EAN', command=eliminar_producto_ean, state='default')
-            button2.grid(column=2, row=5, pady=10, padx=10, sticky=(W))
+            button2.grid(column=2, row=5, pady=10)
         
         
         
@@ -183,7 +183,7 @@ class funciones_gui:
     def mostrar_inventario():
         t3=Toplevel(root)
         t3.title('Mostrar todo el inventario')
-        t3.geometry('700x300+200+5')
+        t3.geometry('450x300+200+5')
         
         t3.grid_columnconfigure(0, weight=1)
         t3.grid_columnconfigure(1, weight=1)
@@ -213,24 +213,5 @@ class funciones_gui:
         for row in cursor:
             tree.insert('', 'end', values=row)
         
-    def buscar_producto():
-        t4=Toplevel(root)
-        t4.title('Buscar un producto')
-        t4.geometry('450x300+200+5')
-        
-        # Configurar las columnas y filas para que se expandan
-        t4.grid_columnconfigure(0, weight=1)
-        t4.grid_columnconfigure(1, weight=1)
-        t4.grid_columnconfigure(2, weight=1)
-        t4.grid_rowconfigure(0, weight=1)
-        t4.grid_rowconfigure(1, weight=1)
-        t4.grid_rowconfigure(2, weight=1)
-        t4.grid_rowconfigure(3, weight=1)
-        t4.grid_rowconfigure(4, weight=1)
-        t4.grid_rowconfigure(5, weight=1)
-        t4.grid_rowconfigure(6, weight=1)
-        t4.grid_rowconfigure(7, weight=1)
-        t4.grid_rowconfigure(8, weight=1)
-        t4.grid_rowconfigure(9, weight=1)
-        
+
 funciones_gui.iniciar_gui()
