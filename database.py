@@ -26,31 +26,25 @@ class funciones_db:
         print('Base de datos cerrada\n')
 
     def eliminar_producto_ean(ean):#Elimina un producto de la tabla productos1 por ean
-            conexion.execute('''DELETE FROM productos1 WHERE LOWER(EAN) = LOWER(?)''', (ean,))
+            conexion.execute('''DELETE FROM productos1 WHERE EAN = ?''', (ean,))
             conexion.commit()
             print("Producto eliminado\n")
 
     def eliminar_producto_nombre(nombre):#Elimina un producto de la tabla productos1 por nombre
-            conexion.execute('''DELETE FROM productos1 WHERE LOWER(nombre)=LOWER(?)''', (nombre,))
+            conexion.execute('''DELETE FROM productos1 WHERE nombre=?''', (nombre,))
             conexion.commit()
             print("Producto eliminado\n")
 
-    def seleccionar_producto():#Selecciona un producto de la tabla productos1
-        seleccion=0
-        seleccion=int(input("\nQue dato conoce del producto a buscar? 1.EAN 2.Nombre :"))#Selecciona el dato por el que se va a buscar el producto
-        if seleccion==1:
-            ean=int(input("Introduce el EAN: "))
-            cursor=conexion.execute('''SELECT * FROM productos1 WHERE ean LIKE ?''', ('%'+ean+'%'))
-            for row in cursor:
-                print(row)
-        elif seleccion==2:
-            nombre=str(input("Introduce el nombre: "))
-            cursor=conexion.execute('''SELECT * FROM productos1 WHERE nombre LIKE ?''', ('%'+nombre+'%'))
-            for row in cursor: 
-                print(row)
-        else: 
-            print("Introduce un valor válido\n")
-            funciones_db.seleccionar_producto()
+    def buscar_producto_nombre(nombre):#buscar un producto de la tabla productos1
+        conexion.execute('''SELECT * FROM productos1 WHERE nombre=?''', (nombre,))
+        conexion.commit()
+        print('Producto enontrado\n')
+        
+    def buscar_producto_ean(ean):
+        conexion.execute('''SELECT * FROM productos1 WHERE EAN=?''', (ean,))
+        conexion.commit()
+        print('Producto encontrado\n')
+        
 
 
     

@@ -177,7 +177,7 @@ class funciones_gui:
         button1=ttk.Button(mainframe, text='Añadir inventario', command=funciones_gui.anadir_inventario).grid(column=1, row=3)
         button2=ttk.Button(mainframe, text='Mostrar todo el inventario', command=funciones_gui.mostrar_inventario).grid(column=2, row=3)
         button3=ttk.Button(mainframe, text='Elminar un producto', command=funciones_gui.eliminar_producto).grid(column=4, row=3)
-        button4=ttk.Button(mainframe, text='Buscar un producto', command=algo).grid(column=5,row=3)
+        button4=ttk.Button(mainframe, text='Buscar un producto', command=funciones_gui.buscar_producto).grid(column=5,row=3)
         root.mainloop()
 
     def mostrar_inventario():
@@ -203,6 +203,7 @@ class funciones_gui:
         tree.heading('EAN', text='EAN')
         tree.heading('Nombre', text='Nombre')
         tree.heading('Cantidad', text='Cantidad')
+    
         tree.grid(column=1, row=1, sticky=(N,S,E,W))
         
         scroll=ttk.Scrollbar(t3, orient='vertical', command=tree.yview)
@@ -212,6 +213,87 @@ class funciones_gui:
         cursor=db.conexion.execute('SELECT * FROM productos1')
         for row in cursor:
             tree.insert('', 'end', values=row)
-        
 
+    def buscar_producto():
+        t4=Toplevel(root)
+        t4.title('Buscar un producto')
+        t4.geometry('450x300+200+5')
+        
+        # Configurar las columnas y filas para que se expandan
+        t4.grid_columnconfigure(0, weight=1)
+        t4.grid_columnconfigure(1, weight=1)
+        t4.grid_columnconfigure(2, weight=1)
+        t4.grid_rowconfigure(0, weight=1)
+        t4.grid_rowconfigure(1, weight=1)
+        t4.grid_rowconfigure(2, weight=1)
+        t4.grid_rowconfigure(3, weight=1)
+        t4.grid_rowconfigure(4, weight=1)
+        t4.grid_rowconfigure(5, weight=1)
+        t4.grid_rowconfigure(6, weight=1)
+        t4.grid_rowconfigure(7, weight=1)
+        t4.grid_rowconfigure(8, weight=1)
+        t4.grid_rowconfigure(9, weight=1)
+
+        nombre=StringVar()
+        ean=StringVar()
+        
+        def buscar_producto_nombre():
+            t5=Toplevel(root)
+            t5.title('Buscar un producto')
+            t5.geometry('450x300+200+5')
+            tree=ttk.Treeview(t5, columns=('EAN','Nombre','Cantidad'), show='headings') #crea un arbol con las columnas de EAN, Nombre y Cantidad
+            cursor=db.conexion.execute('''SELECT * FROM productos1 WHERE nombre=?''', (nombre.get(),))
+            tree.heading('EAN', text='EAN')
+            tree.heading('Nombre', text='Nombre')
+            tree.heading('Cantidad', text='Cantidad')
+            tree.grid(column=1, row=1, sticky=(N,S,E,W))
+            scroll=ttk.Scrollbar(t5, orient='vertical', command=tree.yview)
+            tree.configure(yscrollcommand=scroll.set)
+            scroll.grid(column=2, row=1, sticky=(N,S))
+            button3=ttk.Button(t5, text='Cerrar', command=t5.destroy)
+            button3.grid(column=1, row=2, pady=10)
+            t4.destroy()
+            for row in cursor:
+                tree.insert('','end', values=row)    
+                
+        def buscar_producto_ean():
+            t5=Toplevel(root)
+            t5.title('Buscar un producto')
+            t5.geometry('450x300+200+5')
+            tree=ttk.Treeview(t5, columns=('EAN','Nombre','Cantidad'), show='headings') #crea un arbol con las columnas de EAN, Nombre y Cantidad
+            cursor=db.conexion.execute('''SELECT * FROM productos1 WHERE ean=?''', (ean.get(),))
+            tree.heading('EAN', text='EAN')
+            tree.heading('Nombre', text='Nombre')
+            tree.heading('Cantidad', text='Cantidad')
+            tree.grid(column=1, row=1, sticky=(N,S,E,W))
+            scroll=ttk.Scrollbar(t5, orient='vertical', command=tree.yview)
+            tree.configure(yscrollcommand=scroll.set)
+            scroll.grid(column=2, row=1, sticky=(N,S))
+            button3=ttk.Button(t5, text='Cerrar', command=t5.destroy)
+            button3.grid(column=1, row=2, pady=10)
+            t4.destroy()
+            for row in cursor:
+                tree.insert('','end', values=row)    
+        
+        label1=ttk.Label(t4, text='Introduzca el nombre del producto a buscar:')
+        label1.grid(column=1, row=1, sticky=(W))
+        label2=ttk.Label(t4, text='Introduzca el EAN del producto a buscar:')
+        label2.grid(column=1, row=3, sticky=(W))
+        nombre_entry=ttk.Entry(t4, textvariable=nombre)
+        nombre_entry.grid(column=1, row=2, sticky=(E,W), columnspan=2, padx=30)
+        ean_entry=ttk.Entry(t4, textvariable=ean)
+        ean_entry.grid(column=1, row=4, sticky=(E,W), columnspan=2, padx=30)
+        button1=ttk.Button(t4, text='Buscar por Nombre', command=buscar_producto_nombre)
+        button1.grid(column=1, row=5, pady=10, sticky=(E))
+        button2=ttk.Button(t4, text='Buscar por EAN', command=buscar_producto_ean)
+        button2.grid(column=2, row=5, pady=10, padx=10, sticky=(W))
+        
+        
+        
+            
+                
+            
+            
+        
 funciones_gui.iniciar_gui()
+
